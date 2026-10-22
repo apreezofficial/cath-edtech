@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {ApiConnectionBanner} from './src/components/ApiConnectionBanner';
+import {InstructorDashboardScreen} from './src/screens/instructor/InstructorDashboardScreen';
 
 const C = {bg: '#FBFBF9', blue50: '#EFF5FC', blue100: '#DFEBF9', blue600: '#4F8BCD', blue700: '#2F6DB5', blue900: '#17335A', ink: '#242A36', muted: '#6F7785', line: '#E6E7E5', white: '#FFFFFF', yellow: '#F0B74A'};
 type Tab = 'Dashboard' | 'Courses' | 'Students' | 'Messages' | 'More';
