@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {ApiConnectionBanner} from './src/components/ApiConnectionBanner';
 import {InstructorDashboardScreen} from './src/screens/instructor/InstructorDashboardScreen';
+import {CoursesScreen} from './src/screens/instructor/CoursesScreen';
 
 const C = {bg: '#FBFBF9', blue50: '#EFF5FC', blue100: '#DFEBF9', blue600: '#4F8BCD', blue700: '#2F6DB5', blue900: '#17335A', ink: '#242A36', muted: '#6F7785', line: '#E6E7E5', white: '#FFFFFF', yellow: '#F0B74A'};
 type Tab = 'Dashboard' | 'Courses' | 'Students' | 'Messages' | 'More';
@@ -16,7 +17,7 @@ function CardRow({title, detail, badge, onPress}: {title: string; detail: string
 
 function Dashboard({onGrading}: {onGrading: () => void}) { return <InstructorDashboardScreen onOpenGrading={onGrading} />; }
 
-function Courses({onSetup}: {onSetup: () => void}) { const [filter, setFilter] = useState('All'); const courses = [['Data analysis in Excel', '24 lessons', 'Published'], ['Financial modelling', '18 lessons', 'Draft'], ['Business writing', '12 lessons', 'In review'], ['Intro to Python', '30 lessons', 'Published']]; return <ScrollView contentContainerStyle={s.content}><Header title="My courses" /><View style={s.chips}>{['All', 'Published', 'Draft'].map(x => <Pressable key={x} onPress={() => setFilter(x)} style={[s.chip, filter === x && s.chipActive]}><Text style={[s.chipText, filter === x && s.chipTextActive]}>{x}</Text></Pressable>)}</View>{courses.map((c, i) => <CardRow key={i} title={c[0]} detail={c[1]} badge={c[2]} onPress={onSetup} />)}<View style={s.spacer} /><Button label="+ Create course" onPress={onSetup} /></ScrollView>; }
+function Courses({onSetup}: {onSetup: () => void}) { return <CoursesScreen onSetup={onSetup} />; }
 
 function Setup({onBack, onCurriculum}: {onBack: () => void; onCurriculum: () => void}) { return <ScrollView contentContainerStyle={s.content}><Header title="Data analysis in Excel" back onBack={onBack} /><Text style={s.intro}>Course setup</Text>{[['Basics', 'Title, summary, cover'], ['Curriculum', '6 modules, 24 lessons'], ['Pricing', 'Not set yet'], ['Publish', '2 items missing']].map((x, i) => <CardRow key={i} title={x[0]} detail={x[1]} badge={i === 1 ? 'Open' : undefined} onPress={i === 1 ? onCurriculum : undefined} />)}<View style={s.spacer} /><Button label="Continue to pricing" /></ScrollView>; }
 
