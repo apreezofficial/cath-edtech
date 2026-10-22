@@ -30,7 +30,7 @@ jobs:
           node-version: 22
 
       - name: Install JavaScript dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Make Gradle executable
         run: chmod +x android/gradlew
