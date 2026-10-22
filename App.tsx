@@ -1,0 +1,36 @@
+import React, {useState} from 'react';
+import {Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+
+const colors = {cotton: '#FBFBF9', blue50: '#EFF5FC', blue100: '#DFEBF9', blue600: '#4F8BCD', blue700: '#2F6DB5', blue900: '#17335A', ink: '#242A36', muted: '#6F7785', line: '#E6E7E5', white: '#FFFFFF'};
+type Tab = 'Dashboard' | 'Courses' | 'Students' | 'Messages' | 'More';
+const tabs: Array<{label: Tab; icon: string}> = [{label: 'Dashboard', icon: '▦'}, {label: 'Courses', icon: '▤'}, {label: 'Students', icon: '●'}, {label: 'Messages', icon: '□'}, {label: 'More', icon: '•••'}];
+
+function Metric({label, value, note}: {label: string; value: string; note: string}) {
+  return <View style={styles.metric}><Text style={styles.metricLabel}>{label}</Text><Text style={styles.metricValue}>{value}</Text><Text style={styles.metricNote}>{note}</Text></View>;
+}
+
+function Dashboard() {
+  return <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+    <View style={styles.topBar}><View><Text style={styles.eyebrow}>INSTRUCTOR</Text><Text style={styles.title}>Dashboard</Text></View><View style={styles.avatar}><Text style={styles.avatarText}>SA</Text></View></View>
+    <View style={styles.metricsGrid}><Metric label="Active learners" value="1,284" note="+12% this month" /><Metric label="Completion" value="72%" note="+3 points" /><Metric label="Avg. grade" value="81%" note="All courses" /><Metric label="To grade" value="6" note="2 overdue" /></View>
+    <View style={styles.card}><View style={styles.cardHeader}><Text style={styles.cardTitle}>Engagement, last 7 days</Text><Text style={styles.cardAction}>See all</Text></View><View style={styles.chart}>{[40, 62, 48, 72, 57, 84, 65].map((height, index) => <View key={index} style={styles.barTrack}><View style={[styles.bar, {height}]} /></View>)}</View><View style={styles.chartLabels}>{['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => <Text key={index} style={styles.chartLabel}>{day}</Text>)}</View></View>
+    <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>To grade</Text><Text style={styles.cardAction}>See all</Text></View>
+    {['Assignment 1', 'Assignment 1'].map((item, index) => <Pressable key={index} style={styles.assignment}><View style={styles.assignmentIcon}><Text style={styles.assignmentInitial}>A</Text></View><View style={styles.assignmentCopy}><Text style={styles.assignmentTitle}>{item}</Text><Text style={styles.assignmentMeta}>{index ? 'Chi Eze, 5h ago' : 'Mercy Ibe, 2h ago'}</Text></View><Text style={styles.pending}>Pending</Text></Pressable>)}
+  </ScrollView>;
+}
+
+function Placeholder({tab}: {tab: Tab}) { return <View style={styles.placeholder}><Text style={styles.eyebrow}>INSTRUCTOR</Text><Text style={styles.placeholderTitle}>{tab}</Text><Text style={styles.placeholderText}>This section is ready for the next wireframe flow.</Text></View>; }
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState<Tab>('Dashboard');
+  return <SafeAreaView style={styles.safeArea}><StatusBar barStyle="dark-content" backgroundColor={colors.cotton} /><View style={styles.app}>{activeTab === 'Dashboard' ? <Dashboard /> : <Placeholder tab={activeTab} />}<View style={styles.tabBar}>{tabs.map(tab => {const active = activeTab === tab.label; return <Pressable key={tab.label} style={styles.tab} onPress={() => setActiveTab(tab.label)}><View style={[styles.tabIcon, active && styles.tabIconActive]}><Text style={[styles.tabIconText, active && styles.tabIconTextActive]}>{tab.icon}</Text></View><Text style={[styles.tabLabel, active && styles.tabLabelActive]}>{tab.label}</Text></Pressable>;})}</View></View></SafeAreaView>;
+}
+
+const styles = StyleSheet.create({
+  safeArea: {flex: 1, backgroundColor: colors.cotton}, app: {flex: 1, backgroundColor: colors.cotton}, content: {padding: 16, paddingBottom: 28},
+  topBar: {flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}, eyebrow: {fontSize: 11, letterSpacing: 1.2, color: colors.blue700, fontWeight: '700', marginBottom: 4}, title: {fontSize: 28, lineHeight: 34, color: colors.ink, fontWeight: '800'}, avatar: {width: 44, height: 44, borderRadius: 22, backgroundColor: colors.blue100, alignItems: 'center', justifyContent: 'center'}, avatarText: {color: colors.blue900, fontWeight: '800'},
+  metricsGrid: {flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24}, metric: {width: '47.8%', minHeight: 92, padding: 12, borderRadius: 12, backgroundColor: colors.white, borderWidth: 1, borderColor: colors.line}, metricLabel: {fontSize: 12, color: colors.muted, marginBottom: 8}, metricValue: {fontSize: 24, color: colors.ink, fontWeight: '800'}, metricNote: {fontSize: 11, color: colors.blue700, marginTop: 4},
+  card: {backgroundColor: colors.white, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 14, marginBottom: 24}, cardHeader: {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}, cardTitle: {fontSize: 13, color: colors.ink, fontWeight: '700'}, cardAction: {fontSize: 12, color: colors.blue700, fontWeight: '700'}, chart: {height: 112, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-around', paddingTop: 18}, barTrack: {height: 84, width: 26, justifyContent: 'flex-end', backgroundColor: colors.blue50, borderRadius: 5}, bar: {width: '100%', backgroundColor: colors.blue600, borderRadius: 5}, chartLabels: {flexDirection: 'row', justifyContent: 'space-around', marginTop: 8}, chartLabel: {fontSize: 11, color: colors.muted},
+  sectionHeader: {flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10}, sectionTitle: {fontSize: 18, color: colors.ink, fontWeight: '800'}, assignment: {minHeight: 64, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line}, assignmentIcon: {width: 36, height: 36, borderRadius: 18, backgroundColor: colors.blue100, alignItems: 'center', justifyContent: 'center'}, assignmentInitial: {color: colors.blue700, fontWeight: '800'}, assignmentCopy: {flex: 1, marginLeft: 12}, assignmentTitle: {fontSize: 14, color: colors.ink, fontWeight: '700'}, assignmentMeta: {fontSize: 11, color: colors.muted, marginTop: 3}, pending: {fontSize: 11, color: colors.muted, backgroundColor: colors.blue50, paddingHorizontal: 8, paddingVertical: 5, borderRadius: 10},
+  placeholder: {flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32}, placeholderTitle: {fontSize: 28, lineHeight: 34, color: colors.ink, fontWeight: '800', marginBottom: 10}, placeholderText: {fontSize: 16, lineHeight: 24, color: colors.muted, textAlign: 'center'}, tabBar: {height: 72, borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.white, flexDirection: 'row', justifyContent: 'space-around', paddingTop: 8}, tab: {alignItems: 'center', justifyContent: 'flex-start', minWidth: 56}, tabIcon: {width: 28, height: 28, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginBottom: 3}, tabIconActive: {backgroundColor: colors.blue700}, tabIconText: {fontSize: 15, color: colors.muted}, tabIconTextActive: {color: colors.white}, tabLabel: {fontSize: 10, color: colors.muted}, tabLabelActive: {color: colors.blue700, fontWeight: '700'},
+});
